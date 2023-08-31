@@ -11,7 +11,10 @@ import SwiftUI
 struct WeatherEOApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+                WeatherEOTab()
+                PreView()
+            }
         }
     }
 }
