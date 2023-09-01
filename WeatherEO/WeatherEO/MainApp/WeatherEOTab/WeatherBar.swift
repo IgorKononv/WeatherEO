@@ -12,15 +12,17 @@ struct WeatherBar: View {
 
     var body: some View {
         ZStack {
-            Rectangle()
-                .frame(height: 115)
-                .foregroundColor(Color("green_Color"))
-                .cornerRadius(20)
-            
-            Rectangle()
-                .frame(height: 110)
-                .foregroundColor(.white)
-                .cornerRadius(20)
+            ZStack(alignment: .bottom) {
+                Rectangle()
+                    .frame(height: 115)
+                    .foregroundColor(Color("green_Color"))
+                    .cornerRadius(20)
+                
+                Rectangle()
+                    .frame(height: 110)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
+            }
             
             HStack {
                 ForEach(viewModel.tabWeatherModels, id: \.title) { tab in

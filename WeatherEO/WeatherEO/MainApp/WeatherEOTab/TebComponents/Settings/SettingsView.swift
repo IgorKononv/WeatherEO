@@ -1,5 +1,5 @@
 //
-//  SettingsTabView.swift
+//  SettingsView.swift
 //  WeatherEO
 //
 //  Created by Igor Kononov on 31.08.2023.
@@ -8,9 +8,9 @@
 import SwiftUI
 import StoreKit
 
-struct SettingsTabView: View {
+struct SettingsView: View {
     @Environment(\.requestReview) var requestReview
-    @StateObject var viewModel = SettingsTabViewModel()
+    @StateObject var viewModel = SettingsViewModel()
     var body: some View {
         VStack {
             ForEach(viewModel.arraySettingsModel) { cell in
@@ -56,6 +56,6 @@ struct SettingsTabView: View {
 
 struct SettingsTabView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsTabView()
+        SettingsView()
     }
 }

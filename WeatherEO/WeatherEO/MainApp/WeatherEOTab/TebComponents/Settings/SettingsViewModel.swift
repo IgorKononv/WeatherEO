@@ -8,7 +8,7 @@
 import SwiftUI
 import StoreKit
 
-class SettingsTabViewModel: ObservableObject {
+class SettingsViewModel: ObservableObject {
     @Environment(\.requestReview) var requestReview
     @Published var arraySettingsModel: [SettingsModel] = SettingsModel.allCases
     @Published var isShareSheetPresented = false

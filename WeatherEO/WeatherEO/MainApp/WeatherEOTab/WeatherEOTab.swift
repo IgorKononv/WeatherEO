@@ -13,22 +13,23 @@ struct WeatherEOTab: View {
     var body: some View {
         ZStack {
             Color("main_Color")
-            
             VStack {
-                Spacer()
-                
                 TabView(selection: $viewModel.tabWeatherModel) {
                     Text("1")
                         .tag(WeatherEOTabModel.weather)
-                    Text("2")
+                    MapView()
                         .tag(WeatherEOTabModel.map)
-                    SettingsTabView()
+                    SettingsView()
                         .tag(WeatherEOTabModel.settings)
                 }
+                .frame(height: ScreenSize.height - 115)
+                .ignoresSafeArea()
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                
+                Spacer()
+            }
+            VStack {
+                Spacer()
                 WeatherBar(viewModel: viewModel)
-                
             }
         }
         .ignoresSafeArea()
