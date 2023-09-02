@@ -13,8 +13,27 @@ struct MapView: View {
     @FocusState var focus: Bool
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.region)
-            
+            Map(coordinateRegion: $viewModel.region, annotationItems: viewModel.customAnnotation, annotationContent: { location in MapAnnotation(coordinate: location.coordinate) {
+                
+                    Button {
+                        viewModel.openMoreMapPointInfo(location)
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .frame(height: location.isBigInfoCircle ? 80 : 50)
+                                .foregroundColor(.white)
+                            VStack {
+                                Text("\(viewModel.temperatureScaleModel == .celsius ? Int(location.temp - 273.15) : Int((location.temp - 273.15) * 9/5 + 32))")
+                                    .foregroundColor(.black)
+                                if location.isBigInfoCircle {
+                                    Text(location.mainMap)
+                                        .foregroundColor(.black)
+                                }
+                            }
+                        }
+                    }
+            }})
+        
             VStack {
                 ZStack(alignment: .bottom) {
                     ZStack(alignment: .top) {
@@ -70,6 +89,14 @@ struct MapView: View {
                     .padding(.horizontal)
                     .padding(.bottom)
                 }
+                HStack {
+                    Spacer()
+                    Button {
+                        viewModel.changeScale()
+                    } label: {
+                        Image(viewModel.temperatureScaleModel.image)
+                    }
+                }
                 Spacer()
             }
         }
@@ -77,6 +104,10 @@ struct MapView: View {
             focus = false
         }
         .ignoresSafeArea()
+        .onAppear {
+            viewModel.getWeather()
+            viewModel.checkIfLocationIsEnable()
+        }
     }
 }
 

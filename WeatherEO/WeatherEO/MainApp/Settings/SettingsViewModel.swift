@@ -19,7 +19,7 @@ class SettingsViewModel: ObservableObject {
         switch cell {
         case .rateApp:
             break
-        case .shareGame:
+        case .shareApp:
             tapShareButton()
         }
     }

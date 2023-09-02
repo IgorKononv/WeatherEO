@@ -9,14 +9,14 @@ import SwiftUI
 
 enum SettingsModel: Identifiable, CaseIterable {
     case rateApp
-    case shareGame
+    case shareApp
 
     var id: UUID {
         switch self {
             
         case .rateApp:
             return UUID()
-        case .shareGame:
+        case .shareApp:
             return UUID()
         }
     }
@@ -25,8 +25,8 @@ enum SettingsModel: Identifiable, CaseIterable {
             
         case .rateApp:
             return "RATE APP"
-        case .shareGame:
-            return "SHARE GAME"
+        case .shareApp:
+            return "SHARE APP"
         }
     }
     
@@ -35,7 +35,7 @@ enum SettingsModel: Identifiable, CaseIterable {
             
         case .rateApp:
             return "RATE_icon"
-        case .shareGame:
+        case .shareApp:
             return "SHARE_icon"
         }
     }

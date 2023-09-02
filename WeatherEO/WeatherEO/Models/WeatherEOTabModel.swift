@@ -10,7 +10,7 @@ import Foundation
 enum WeatherEOTabModel: CaseIterable {
     case weather
     case map
-    case settings
+    case list
     
     var title: String {
         switch self {
@@ -19,8 +19,8 @@ enum WeatherEOTabModel: CaseIterable {
             return "Weather"
         case .map:
             return "Map"
-        case .settings:
-            return "settings"
+        case .list:
+            return "List"
         }
     }
     
@@ -31,8 +31,8 @@ enum WeatherEOTabModel: CaseIterable {
             return "weather_icon"
         case .map:
             return "map_icon"
-        case .settings:
-            return "settings_icon"
+        case .list:
+            return "list_icon"
         }
     }
 }

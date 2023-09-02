@@ -19,10 +19,10 @@ struct WeatherEOTab: View {
                         .tag(WeatherEOTabModel.weather)
                     MapView()
                         .tag(WeatherEOTabModel.map)
-                    SettingsView()
-                        .tag(WeatherEOTabModel.settings)
+                    ListWeatherView()
+                        .tag(WeatherEOTabModel.list)
                 }
-                .frame(height: ScreenSize.height - 115)
+                .frame(height: ScreenSize.height - 110)
                 .ignoresSafeArea()
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 Spacer()
@@ -33,6 +33,9 @@ struct WeatherEOTab: View {
             }
         }
         .ignoresSafeArea()
+        .onAppear {
+            viewModel.checkIfLocationIsEnable()
+        }
     }
 }
 

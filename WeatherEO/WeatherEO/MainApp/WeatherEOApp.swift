@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct WeatherEOApp: App {
+    
+    init() {
+        registerDependencies()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -16,5 +21,11 @@ struct WeatherEOApp: App {
                 PreView()
             }
         }
+    }
+    
+    private func registerDependencies() {
+        register(service: MapServiceProviding.self, creator: MapServiceProvider.init)
+        register(service: RealmServiceProviding.self, creator: RealmServiceProvider.init)
+        register(service: WeatherServiceProviding.self, creator: WeatherServiceProvider.init)
     }
 }
