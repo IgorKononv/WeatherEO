@@ -11,7 +11,7 @@ import MapKit
 
 protocol MapServiceProviding {
     var regionProvider: Published<MKCoordinateRegion>.Publisher { get }
-    func checkIfLocationIsEnable() async
+    func checkIfLocationIsEnable() async -> Bool
 }
 
 class MapServiceProvider: ObservableObject, MapServiceProviding {
@@ -21,32 +21,38 @@ class MapServiceProvider: ObservableObject, MapServiceProviding {
     
     private var locationManager: CLLocationManager?
     
-    func checkIfLocationIsEnable() async {
+    func checkIfLocationIsEnable() async -> Bool {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
-            checkLocationAuthorization()
+            let isGetedRegion = await checkLocationAuthorization()
+            return true
         } else {
             print("location is hiden")
+            return false
         }
     }
     
-    private func checkLocationAuthorization() {
-        guard let locationManager = locationManager else { return }
+    private func checkLocationAuthorization() async -> Bool {
+        guard let locationManager = locationManager else { return false }
         
         switch locationManager.authorizationStatus {
             
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
+            return false
         case .restricted:
             print("restricted")
+            return false
         case .denied:
             print("go to settings")
+            return false
         case .authorizedAlways, .authorizedWhenInUse:
             DispatchQueue.main.async {
                 self.region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 50, longitude: 30), span: MKCoordinateSpan(latitudeDelta: 6, longitudeDelta: 6))
             }
+            return true
         @unknown default:
-            break
+            return false
         }
     }
 }

@@ -22,7 +22,6 @@ struct WeatherEOTab: View {
                     ListWeatherView()
                         .tag(WeatherEOTabModel.list)
                 }
-                .frame(height: ScreenSize.height - 110)
                 .ignoresSafeArea()
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 Spacer()

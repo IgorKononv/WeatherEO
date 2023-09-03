@@ -25,6 +25,7 @@ struct WeatherEOApp: App {
     
     private func registerDependencies() {
         register(service: MapServiceProviding.self, creator: MapServiceProvider.init)
+        register(service: CitySearchProviding.self, creator: CitySearchProvider.init)
         register(service: RealmServiceProviding.self, creator: RealmServiceProvider.init)
         register(service: WeatherServiceProviding.self, creator: WeatherServiceProvider.init)
     }

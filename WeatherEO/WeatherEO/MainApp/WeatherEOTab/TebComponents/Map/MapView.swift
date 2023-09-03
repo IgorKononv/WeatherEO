@@ -18,36 +18,57 @@ struct MapView: View {
                     Button {
                         viewModel.openMoreMapPointInfo(location)
                     } label: {
-                        ZStack {
-                            Circle()
-                                .frame(height: location.isBigInfoCircle ? 80 : 50)
-                                .foregroundColor(.white)
-                            VStack {
-                                Text("\(viewModel.temperatureScaleModel == .celsius ? Int(location.temp - 273.15) : Int((location.temp - 273.15) * 9/5 + 32))")
+                        VStack(spacing: -1) {
+                            ZStack {
+                                Circle()
+                                    .frame(height: location.isBigInfoCircle ? 82 : 42)
                                     .foregroundColor(.black)
-                                if location.isBigInfoCircle {
-                                    Text(location.mainMap)
-                                        .foregroundColor(.black)
+                                Circle()
+                                    .frame(height: location.isBigInfoCircle ? 80 : 40)
+                                    .foregroundColor(.gray)
+                                
+                                VStack(spacing: 0) {
+                                    Text("\(viewModel.temperatureScaleModel == .celsius ? Int(location.temp - 273.15) : Int((location.temp - 273.15) * 9/5 + 32))")
+                                        .foregroundColor(.white)
+                                        .bold()
+                                    
+                                    if location.isBigInfoCircle {
+                                        VStack(spacing: 0) {
+                                            Image(location.image)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: 50)
+                                        }
+                                    }
                                 }
                             }
+                            Image(systemName: "triangle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 10)
+                                .rotationEffect(.degrees(180))
+                                .foregroundColor(viewModel.temperatureScaleModel == .fahrenheit ? .red : .blue)
                         }
                     }
+                    .offset(y: location.isBigInfoCircle ? -45 : -25)
+                    .frame(width: 100, height: 150)
             }})
         
             VStack {
                 ZStack(alignment: .bottom) {
                     ZStack(alignment: .top) {
                         Rectangle()
-                            .frame(height: 110)
+                            .frame(height: viewModel.matchingItems.isEmpty ? 110 : 410)
                             .foregroundColor(.white)
                             .cornerRadius(20)
                         
                         Rectangle()
                             .foregroundColor(Color("green_Color"))
-                            .frame(height: 105)
+                            .frame(height: viewModel.matchingItems.isEmpty ? 105 : 405)
                             .cornerRadius(20)
                     }
-                    HStack {
+                    
+                    VStack {
                         ZStack {
                             Rectangle()
                                 .frame(height: 38)
@@ -56,6 +77,9 @@ struct MapView: View {
                             
                             HStack {
                                 TextField("Search..", text: $viewModel.searchText)
+                                    .onChange(of: viewModel.searchText, perform: { _ in
+                                         viewModel.searchCity()
+                                    })
                                     .focused($focus)
                                 Spacer()
                                 
@@ -75,26 +99,60 @@ struct MapView: View {
                             }
                             .padding(.horizontal)
                         }
-                        Button {
-                            viewModel.tapSerch()
-                        } label: {
-                            Image("serch_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 38)
-                                .opacity(viewModel.searchText.isEmpty ? 0.5 : 1)
+                        
+                        if !viewModel.matchingItems.isEmpty {
+                            ZStack {
+                                Rectangle()
+                                    .frame(height: 300)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                                ScrollView {
+                                    VStack(spacing: 10) {
+                                        ForEach(viewModel.matchingItems, id: \.name) { item in
+                                            Button {
+                                                viewModel.getWeatherOnMap(item)
+                                            } label: {
+                                                HStack {
+                                                    Text(item.name )
+                                                        .foregroundColor(.black)
+                                                    Spacer()
+                                                    
+                                                    Image("serch_icon")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(height: 25)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .padding()
+                                }
+                            }
+                            .frame(height: 300)
                         }
-                        .disabled(viewModel.searchText.isEmpty)
                     }
                     .padding(.horizontal)
                     .padding(.bottom)
                 }
+                
                 HStack {
+                    Button {
+                        viewModel.navigateCurrentPositon()
+                    } label: {
+                        Image("navigation_icon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 50)
+                    }
+                    
                     Spacer()
                     Button {
                         viewModel.changeScale()
                     } label: {
                         Image(viewModel.temperatureScaleModel.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 50)
                     }
                 }
                 Spacer()
@@ -105,7 +163,6 @@ struct MapView: View {
         }
         .ignoresSafeArea()
         .onAppear {
-            viewModel.getWeather()
             viewModel.checkIfLocationIsEnable()
         }
     }
