@@ -43,6 +43,9 @@
 		6FF7E0BE2AA4946700A34599 /* CitySearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0BD2AA4946700A34599 /* CitySearchProvider.swift */; };
 		6FF7E0C12AA4EE3500A34599 /* WeatherTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0C02AA4EE3500A34599 /* WeatherTabView.swift */; };
 		6FF7E0C32AA4EE4400A34599 /* WeatherTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0C22AA4EE4400A34599 /* WeatherTabViewModel.swift */; };
+		6FF7E0C52AA509FE00A34599 /* MapSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0C42AA509FE00A34599 /* MapSearchBar.swift */; };
+		6FF7E0CA2AA50C9400A34599 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0C92AA50C9400A34599 /* Extensions.swift */; };
+		6FF7E0CC2AA50D1A00A34599 /* ListSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF7E0CB2AA50D1A00A34599 /* ListSearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +84,9 @@
 		6FF7E0BD2AA4946700A34599 /* CitySearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchProvider.swift; sourceTree = "<group>"; };
 		6FF7E0C02AA4EE3500A34599 /* WeatherTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabView.swift; sourceTree = "<group>"; };
 		6FF7E0C22AA4EE4400A34599 /* WeatherTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabViewModel.swift; sourceTree = "<group>"; };
+		6FF7E0C42AA509FE00A34599 /* MapSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchBar.swift; sourceTree = "<group>"; };
+		6FF7E0C92AA50C9400A34599 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6FF7E0CB2AA50D1A00A34599 /* ListSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,7 @@
 		6FF7E0612AA0A84300A34599 /* WeatherEO */ = {
 			isa = PBXGroup;
 			children = (
+				6FF7E0C82AA50C8400A34599 /* Extensions */,
 				6FF7E0702AA0B3BA00A34599 /* MainApp */,
 				6FF7E07A2AA0C7D900A34599 /* Helper */,
 				6FF7E0722AA0B3EA00A34599 /* Models */,
@@ -201,6 +208,7 @@
 			children = (
 				6FF7E08C2AA0FAF300A34599 /* MapView.swift */,
 				6FF7E08E2AA0FB1300A34599 /* MapViewModel.swift */,
+				6FF7E0C62AA50A0400A34599 /* ViewComponents */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -210,6 +218,7 @@
 			children = (
 				6FF7E0912AA1BDD500A34599 /* ListWeatherView.swift */,
 				6FF7E0932AA1BDE000A34599 /* ListWeatherViewModel.swift */,
+				6FF7E0C72AA50A6F00A34599 /* ViewComponents */,
 			);
 			path = ListWeather;
 			sourceTree = "<group>";
@@ -287,6 +296,30 @@
 				6FF7E0C22AA4EE4400A34599 /* WeatherTabViewModel.swift */,
 			);
 			path = WeatherTab;
+			sourceTree = "<group>";
+		};
+		6FF7E0C62AA50A0400A34599 /* ViewComponents */ = {
+			isa = PBXGroup;
+			children = (
+				6FF7E0C42AA509FE00A34599 /* MapSearchBar.swift */,
+			);
+			path = ViewComponents;
+			sourceTree = "<group>";
+		};
+		6FF7E0C72AA50A6F00A34599 /* ViewComponents */ = {
+			isa = PBXGroup;
+			children = (
+				6FF7E0CB2AA50D1A00A34599 /* ListSearchBar.swift */,
+			);
+			path = ViewComponents;
+			sourceTree = "<group>";
+		};
+		6FF7E0C82AA50C8400A34599 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6FF7E0C92AA50C9400A34599 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,6 +413,8 @@
 				6FF7E0B52AA3770900A34599 /* MapServiceProvider.swift in Sources */,
 				6FF7E08F2AA0FB1300A34599 /* MapViewModel.swift in Sources */,
 				6FF7E0BE2AA4946700A34599 /* CitySearchProvider.swift in Sources */,
+				6FF7E0CC2AA50D1A00A34599 /* ListSearchBar.swift in Sources */,
+				6FF7E0C52AA509FE00A34599 /* MapSearchBar.swift in Sources */,
 				6FF7E0812AA0D51600A34599 /* SettingsView.swift in Sources */,
 				6FF7E0A12AA1D36700A34599 /* DependencyWrappers.swift in Sources */,
 				6FF7E0B92AA3BD7000A34599 /* CustomAnnotationModel.swift in Sources */,
@@ -392,6 +427,7 @@
 				6FF7E0762AA0B71C00A34599 /* WeatherEOTabViewModel.swift in Sources */,
 				6FF7E0922AA1BDD500A34599 /* ListWeatherView.swift in Sources */,
 				6FF7E0742AA0B41100A34599 /* WeatherEOTabModel.swift in Sources */,
+				6FF7E0CA2AA50C9400A34599 /* Extensions.swift in Sources */,
 				6FF7E0B22AA232A600A34599 /* WeatherModel.swift in Sources */,
 				6FF7E0A82AA1D40E00A34599 /* RealmService.swift in Sources */,
 				6FF7E0862AA0D59E00A34599 /* SettingsTabModel.swift in Sources */,

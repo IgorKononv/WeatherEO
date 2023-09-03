@@ -16,12 +16,10 @@ class MapViewModel: ObservableObject {
     
     @Published var customAnnotation = [CustomAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 50, longitude: 30), temp: 0, image: "", isBigInfoCircle: false, fromCases: .currentLocation)]
     
-    @Published var weatherModel: WeatherModel?
     @Published var temperatureScaleModel: TemperatureScaleModel = .fahrenheit
+    @Published var isFocusedTextField: Bool = false
     @Published var searchText = ""
-    
-    var locationManager: CLLocationManager?
-    
+        
     private var weatherManager: WeatherServiceProviding {
         resolve(WeatherServiceProviding.self)
     }
@@ -43,6 +41,7 @@ class MapViewModel: ObservableObject {
     
     func tapCancel() {
         withAnimation {
+            unDoFocusToTextField()
             searchText = ""
         }
     }
@@ -147,5 +146,9 @@ class MapViewModel: ObservableObject {
                 self.matchingItems = []
             }
         }
+    }
+    
+    func unDoFocusToTextField() {
+        isFocusedTextField = false
     }
 }
