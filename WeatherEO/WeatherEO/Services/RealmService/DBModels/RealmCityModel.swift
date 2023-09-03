@@ -10,22 +10,22 @@ import RealmSwift
 
 class RealmCityModel: Object, Identifiable {
     @Persisted(primaryKey: true) var id = ""
-    @Persisted var imageName: String
-    @Persisted var isPremium: Bool
-    @Persisted var isOwnBg: Bool
+    @Persisted var name: String
+    @Persisted var latitude: Double
+    @Persisted var longitude: Double
     
-    convenience init(id: String, isPremium: Bool, isOwnBg: Bool, imageName: String) {
+    convenience init(id: String, name: String, latitude: Double, longitude: Double) {
         self.init()
         self.id = id
-        self.imageName = imageName
-        self.isPremium = isPremium
-        self.isOwnBg = isOwnBg
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
     }
 }
 
 struct CityModel: Identifiable {
-    var id: String
-    let imageName: String
-    let isPremium: Bool
-    var isOwnBg: Bool
+    let id: String
+    let name: String
+    let latitude: Double
+    let longitude: Double
 }

@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 protocol RealmServiceProviding {
+    func getAllCityObjects() -> [CityModel]
     func getCityWithID(id: String) -> CityModel?
     func addNewCityModel(city: CityModel)
     func deleteCityModel(city: CityModel)
@@ -32,20 +33,20 @@ class RealmServiceProvider: RealmServiceProviding {
         return getAllRealmObjects().first(where: {$0.id == id}) ?? nil
     }
     
-    private func getAllCityObjects() -> [CityModel] {
+    func getAllCityObjects() -> [CityModel] {
         getAllRealmObjects().map { realmModel in
-            CityModel(id: realmModel.id, imageName: realmModel.imageName, isPremium: realmModel.isPremium, isOwnBg: realmModel.isOwnBg)
+            CityModel(id: realmModel.id, name: realmModel.name, latitude: realmModel.latitude, longitude: realmModel.longitude)
         }
     }
     
     func getCityWithID(id: String) -> CityModel? {
         getRealmCityWithID(id: id).map { realmModel in
-            CityModel(id: realmModel.id, imageName: realmModel.imageName, isPremium: realmModel.isPremium, isOwnBg: realmModel.isOwnBg)
+            CityModel(id: realmModel.id, name: realmModel.name, latitude: realmModel.latitude, longitude: realmModel.longitude)
         }
     }
     
     func addNewCityModel(city: CityModel) {
-        let model = RealmCityModel(id: city.id, isPremium: city.isPremium, isOwnBg: city.isOwnBg, imageName: city.imageName)
+        let model = RealmCityModel(id: city.id, name: city.name, latitude: city.latitude, longitude: city.longitude)
         self.realmService.create(model)
     }
         

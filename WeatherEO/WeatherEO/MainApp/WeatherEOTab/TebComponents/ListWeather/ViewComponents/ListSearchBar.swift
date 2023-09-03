@@ -44,9 +44,7 @@ struct ListSearchBar: View {
                             Spacer()
                             
                             Button {
-                                withAnimation {
-                                    viewModel.tapCancel()
-                                }
+                                viewModel.tapCancel()
                             } label: {
                                 Image("cancel_icon")
                                     .resizable()

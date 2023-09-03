@@ -60,6 +60,7 @@ class MapViewModel: ObservableObject {
     func getWeatherOnMap(_ city: CitySearchModel) {
         withAnimation {
             self.matchingItems = []
+            unDoFocusToTextField()
         }
         
         Task {
@@ -122,9 +123,11 @@ class MapViewModel: ObservableObject {
     
     func openMoreMapPointInfo(_ location: CustomAnnotationModel) {
         withAnimation {
-            region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.8, longitudeDelta: 0.8))
-            for index in customAnnotation.indices {
-                customAnnotation[index].isBigInfoCircle = customAnnotation[index].id == location.id
+            DispatchQueue.main.async {
+                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.8, longitudeDelta: 0.8))
+                for index in self.customAnnotation.indices {
+                    self.customAnnotation[index].isBigInfoCircle = self.customAnnotation[index].id == location.id
+                }
             }
         }
     }
