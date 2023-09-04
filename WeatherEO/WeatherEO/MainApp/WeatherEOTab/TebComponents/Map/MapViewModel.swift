@@ -32,6 +32,10 @@ class MapViewModel: ObservableObject {
         resolve(MapServiceProviding.self)
     }
     
+    private var realmManager: RealmServiceProviding {
+        resolve(RealmServiceProviding.self)
+    }
+    
     init() {
         temperatureScaleModel = scaleMod
         mapManager.regionProvider
@@ -59,7 +63,8 @@ class MapViewModel: ObservableObject {
     
     func getWeatherOnMap(_ city: CitySearchModel) {
         withAnimation {
-            self.matchingItems = []
+            searchText = ""
+            matchingItems = []
             unDoFocusToTextField()
         }
         
@@ -71,6 +76,22 @@ class MapViewModel: ObservableObject {
                 customAnnotation.removeAll(where: { $0.fromCases == .mapSearch})
                 customAnnotation.append(weather)
                 region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: weather.coordinate.latitude, longitude: weather.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 6, longitudeDelta: 6))
+            }
+        }
+    }
+    
+    func getWeatherOnRealm() {
+        customAnnotation.removeAll(where: { $0.fromCases == .realm})
+        let cityFromRealm = realmManager.getAllCityObjects()
+        for city in cityFromRealm {
+            Task {
+                do {
+                    guard let serchedCity = try await weatherManager.getWeather(latitude: city.latitude, longitude: city.longitude) else { return }
+                                        
+                    DispatchQueue.main.async {
+                        self.customAnnotation.append(CustomAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: serchedCity.coord.lat, longitude: serchedCity.coord.lon), temp: serchedCity.main.temp, image: serchedCity.weather.first?.main ?? "", isBigInfoCircle: false, fromCases: .realm))
+                    }
+                }
             }
         }
     }
@@ -93,6 +114,7 @@ class MapViewModel: ObservableObject {
                 if isGetedRegion {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                         self.getCurrentWeather()
+                        self.getWeatherOnRealm()
                     }
                 }
             }

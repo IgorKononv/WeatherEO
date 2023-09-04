@@ -35,18 +35,18 @@ class RealmServiceProvider: RealmServiceProviding {
     
     func getAllCityObjects() -> [CityModel] {
         getAllRealmObjects().map { realmModel in
-            CityModel(id: realmModel.id, name: realmModel.name, latitude: realmModel.latitude, longitude: realmModel.longitude)
+            CityModel(id: realmModel.id, latitude: realmModel.latitude, longitude: realmModel.longitude)
         }
     }
     
     func getCityWithID(id: String) -> CityModel? {
         getRealmCityWithID(id: id).map { realmModel in
-            CityModel(id: realmModel.id, name: realmModel.name, latitude: realmModel.latitude, longitude: realmModel.longitude)
+            CityModel(id: realmModel.id, latitude: realmModel.latitude, longitude: realmModel.longitude)
         }
     }
     
     func addNewCityModel(city: CityModel) {
-        let model = RealmCityModel(id: city.id, name: city.name, latitude: city.latitude, longitude: city.longitude)
+        let model = RealmCityModel(id: city.id, latitude: city.latitude, longitude: city.longitude)
         self.realmService.create(model)
     }
         

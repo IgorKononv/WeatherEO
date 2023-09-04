@@ -6,17 +6,20 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 class ListWeatherViewModel: ObservableObject {
     @AppStorage("temperatureScaleModel_ID") var scaleMod: TemperatureScaleModel = .fahrenheit
 
     @Published var matchingItems: [CitySearchModel] = []
     @Published var weatherModel: [WeatherModel] = []
+    @Published var selectedCity: WeatherModel?
     @Published var isFocusedTextField: Bool = false
     @Published var showSettings = false
     @Published var searchText = ""
     @Published var showAlert = false
-    
+    @Published var showDeleteAlert = false
+
     private var searchCityManager: CitySearchProviding {
         resolve(CitySearchProviding.self)
     }
@@ -69,17 +72,27 @@ class ListWeatherViewModel: ObservableObject {
     
     func getWeatherOnList(_ city: CitySearchModel) {
         withAnimation {
-            self.matchingItems = []
+            searchText = ""
+            matchingItems = []
             unDoFocusToTextField()
         }
-        let idNewCity = city.name + city.latitude.description + city.longitude.description
-        if realmManager.getAllCityObjects().first(where: {$0.id == idNewCity}) == nil {
-            realmManager.addNewCityModel(city: CityModel(id: idNewCity, name: city.name, latitude: city.latitude, longitude: city.longitude))
-        } else {
-            showAlert = true
+        Task {
+            do {
+                guard let serchedCity = try await weatherManager.getWeather(latitude: city.latitude, longitude: city.longitude) else { return }
+                
+                let idNewCity = serchedCity.coord.lat.description + serchedCity.coord.lon.description
+                
+                DispatchQueue.main.async {
+                    if self.realmManager.getAllCityObjects().first(where: { $0.id == idNewCity }) == nil {
+                        self.weatherModel.append(serchedCity)
+                        self.realmManager.addNewCityModel(city: CityModel(id: idNewCity, latitude: serchedCity.coord.lat, longitude: serchedCity.coord.lon))
+                    } else {
+                        self.showAlert = true
+                    }
+                }
+            }
         }
     }
-    
     private func getAllCityObjects() {
         for city in realmManager.getAllCityObjects() {
             Task {
@@ -90,6 +103,29 @@ class ListWeatherViewModel: ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    func deleteAlert(_ city: WeatherModel) {
+        withAnimation {
+            showDeleteAlert = true
+            selectedCity = city
+        }
+    }
+    
+    func doDeleteCity() {
+        guard let selectedCity = selectedCity else { return }
+        let idCity = selectedCity.coord.lat.description + selectedCity.coord.lon.description
+        
+        weatherModel.removeAll(where: {$0.coord.lat == selectedCity.coord.lat && $0.coord.lon == selectedCity.coord.lon})
+        realmManager.deleteCityModel(city: CityModel(id: idCity, latitude: selectedCity.coord.lat, longitude: selectedCity.coord.lon))
+        cancelDeletingCity()
+    }
+    
+    func cancelDeletingCity() {
+        withAnimation {
+            showDeleteAlert = false
+            selectedCity = nil
         }
     }
 }

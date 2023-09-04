@@ -10,14 +10,12 @@ import RealmSwift
 
 class RealmCityModel: Object, Identifiable {
     @Persisted(primaryKey: true) var id = ""
-    @Persisted var name: String
     @Persisted var latitude: Double
     @Persisted var longitude: Double
     
-    convenience init(id: String, name: String, latitude: Double, longitude: Double) {
+    convenience init(id: String, latitude: Double, longitude: Double) {
         self.init()
         self.id = id
-        self.name = name
         self.latitude = latitude
         self.longitude = longitude
     }
@@ -25,7 +23,6 @@ class RealmCityModel: Object, Identifiable {
 
 struct CityModel: Identifiable {
     let id: String
-    let name: String
     let latitude: Double
     let longitude: Double
 }
