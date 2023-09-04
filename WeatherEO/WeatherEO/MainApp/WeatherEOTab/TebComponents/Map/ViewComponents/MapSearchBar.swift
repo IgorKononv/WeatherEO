@@ -106,7 +106,7 @@ struct MapSearchBar: View {
                 Button {
                     viewModel.changeScale()
                 } label: {
-                    Image(viewModel.temperatureScaleModel.image)
+                    Image(viewModel.scaleMod.image)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 50)

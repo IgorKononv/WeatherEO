@@ -10,6 +10,8 @@ import MapKit
 
 struct MapView: View {
     @StateObject var viewModel = MapViewModel()
+    @AppStorage("temperatureScaleModel_ID") var scaleMod: TemperatureScaleModel = .fahrenheit
+
     var body: some View {
         ZStack {
             Map(coordinateRegion: $viewModel.region, annotationItems: viewModel.customAnnotation, annotationContent: { location in MapAnnotation(coordinate: location.coordinate) {
@@ -27,7 +29,7 @@ struct MapView: View {
                                     .foregroundColor(.gray)
                                 
                                 VStack(spacing: 0) {
-                                    Text("\(viewModel.temperatureScaleModel == .celsius ? Int(location.temp - 273.15) : Int((location.temp - 273.15) * 9/5 + 32))")
+                                    Text("\(scaleMod == .celsius ? Int(location.temp - 273.15) : Int((location.temp - 273.15) * 9/5 + 32))")
                                         .foregroundColor(.white)
                                         .bold()
                                     
@@ -46,7 +48,7 @@ struct MapView: View {
                                 .scaledToFit()
                                 .frame(height: 10)
                                 .rotationEffect(.degrees(180))
-                                .foregroundColor(viewModel.temperatureScaleModel == .fahrenheit ? .red : .blue)
+                                .foregroundColor(scaleMod == .fahrenheit ? .red : .blue)
                         }
                     }
                     .offset(y: location.isBigInfoCircle ? -45 : -25)

@@ -8,8 +8,10 @@
 import SwiftUI
 
 enum SettingsModel: Identifiable, CaseIterable {
+
     case rateApp
     case shareApp
+    case temp
 
     var id: UUID {
         switch self {
@@ -17,6 +19,8 @@ enum SettingsModel: Identifiable, CaseIterable {
         case .rateApp:
             return UUID()
         case .shareApp:
+            return UUID()
+        case .temp:
             return UUID()
         }
     }
@@ -27,6 +31,8 @@ enum SettingsModel: Identifiable, CaseIterable {
             return "RATE APP"
         case .shareApp:
             return "SHARE APP"
+        case .temp:
+            return "TEMPERATURE SCALE"
         }
     }
     
@@ -37,6 +43,9 @@ enum SettingsModel: Identifiable, CaseIterable {
             return "RATE_icon"
         case .shareApp:
             return "SHARE_icon"
+        case .temp:
+            return SettingsViewModel().scaleMod == .celsius ? "celsius_icon" : "fahrenheit_icon"
+
         }
     }
 }

@@ -25,7 +25,7 @@ class MapServiceProvider: ObservableObject, MapServiceProviding {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
             let isGetedRegion = await checkLocationAuthorization()
-            return true
+            return isGetedRegion
         } else {
             print("location is hiden")
             return false

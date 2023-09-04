@@ -41,6 +41,7 @@ struct ListCityCell: View {
                     Text("\(viewModel.scaleMod == .celsius ? Int(city.main.temp - 273.15) : Int((city.main.temp - 273.15) * 9/5 + 32))°")
                         .font(.system(size: 40, weight: .semibold))
                         .frame(height: 80)
+                        .offset(x: 10)
                     HStack {
                         Text("H:\(viewModel.scaleMod == .celsius ? Int(city.main.temp_max - 273.15) : Int((city.main.temp_max - 273.15) * 9/5 + 32))°")
                         Text("L:\(viewModel.scaleMod == .celsius ? Int(city.main.temp_min - 273.15) : Int((city.main.temp_min - 273.15) * 9/5 + 32))°")

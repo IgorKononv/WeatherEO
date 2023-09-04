@@ -12,6 +12,7 @@ protocol CitySearchProviding {
 }
 
 class CitySearchProvider: CitySearchProviding {
+    // https://api-ninjas.com/profile
     
     func searchCity(searchText: String) async -> [CitySearchModel] {
         let apiKey = "KePqiGfHzq1R5xCI6BXpcg==L6lE4bDl1GQW7FtN"

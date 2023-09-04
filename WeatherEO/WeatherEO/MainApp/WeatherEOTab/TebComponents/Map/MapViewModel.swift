@@ -14,9 +14,8 @@ class MapViewModel: ObservableObject {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 50, longitude: 30), span: MKCoordinateSpan(latitudeDelta: 6, longitudeDelta: 6))
     @Published var matchingItems: [CitySearchModel] = []
     
-    @Published var customAnnotation = [CustomAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 50, longitude: 30), temp: 0, image: "", isBigInfoCircle: false, fromCases: .currentLocation)]
+    @Published var customAnnotation: [CustomAnnotationModel] = []
     
-    @Published var temperatureScaleModel: TemperatureScaleModel = .fahrenheit
     @Published var isFocusedTextField: Bool = false
     @Published var searchText = ""
         
@@ -37,7 +36,6 @@ class MapViewModel: ObservableObject {
     }
     
     init() {
-        temperatureScaleModel = scaleMod
         mapManager.regionProvider
             .map { $0 }
             .assign(to: &$region)
@@ -53,7 +51,6 @@ class MapViewModel: ObservableObject {
     func getCurrentWeather() {
         Task {
             guard let weather = await getWeather(region: CLLocationCoordinate2D(latitude: region.center.latitude, longitude: region.center.longitude), fromCases: .currentLocation) else { return }
-            print("getCurrentWeather - \(weather)")
             DispatchQueue.main.async {
                 self.customAnnotation.removeAll(where: {$0.fromCases == .currentLocation })
                 self.customAnnotation.append(weather)
@@ -99,7 +96,6 @@ class MapViewModel: ObservableObject {
     private func getWeather(region: CLLocationCoordinate2D, fromCases: FromCases) async -> CustomAnnotationModel? {
         do {
             guard let weather = try await weatherManager.getWeather(latitude: region.latitude, longitude: region.longitude) else { return nil }
-            print("weather - \(weather)")
             return CustomAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: weather.coord.lat, longitude: weather.coord.lon), temp: weather.main.temp, image: weather.weather.first?.main ?? "", isBigInfoCircle: false, fromCases: fromCases)
         } catch {
             print("Error fetching weather: \(error)")
@@ -123,13 +119,11 @@ class MapViewModel: ObservableObject {
     
     func changeScale() {
         withAnimation {
-            switch temperatureScaleModel {
+            switch scaleMod {
                 
             case .celsius:
-                temperatureScaleModel = .fahrenheit
                 scaleMod = .fahrenheit
             case .fahrenheit:
-                temperatureScaleModel = .celsius
                 scaleMod = .celsius
             }
         }
