@@ -65,12 +65,14 @@ struct ListSearchBar: View {
                                 .cornerRadius(20)
                             ScrollView {
                                 VStack(spacing: 10) {
-                                    ForEach(viewModel.matchingItems, id: \.name) { item in
+                                    ForEach(viewModel.matchingItems, id: \.self) { item in
                                         Button {
                                             viewModel.getWeatherOnList(item)
                                         } label: {
                                             HStack {
                                                 Text(item.name )
+                                                    .foregroundColor(.black)
+                                                Text(item.country )
                                                     .foregroundColor(.black)
                                                 Spacer()
                                                 

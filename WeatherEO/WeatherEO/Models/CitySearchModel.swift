@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CitySearchModel: Decodable {
+struct CitySearchModel: Decodable, Hashable {
     let name: String
     let latitude: Double
     let longitude: Double
